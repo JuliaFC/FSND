@@ -1,0 +1,28 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Fyyur | Genre Search{% endblock %}
+{% block content %}
+<h3>Number of search results for genre "{{ search_term }}": {{ artists.count + venues.count}}</h3>
+<ul class="items">
+	{% for artist in artists.data %}
+	<li>
+		<a href="/artists/{{ artist.id }}">
+			<i class="fas fa-users"></i>
+			<div class="item">
+				<h5>{{ artist.name }}</h5>
+			</div>
+		</a>
+	</li>
+	{% endfor %}
+
+	{% for venue in venues.data %}
+	<li>
+		<a href="/venues/{{ venue.id }}">
+			<i class="fas fa-music"></i>
+			<div class="item">
+				<h5>{{ venue.name }}</h5>
+			</div>
+		</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}

@@ -4,15 +4,18 @@
 <div class="row">
 	<div class="col-sm-6">
 		<h1 class="monospace">
-			{{ artist.name }}
+			{{ artist.name }} 		
+			<a href="/artists/{{ artist.id }}/edit"><button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-pencil"></span></button></a>
 		</h1>
 		<p class="subtitle">
 			ID: {{ artist.id }}
 		</p>
-		<div class="genres">
-			{% for genre in artist.genres %}
-			<span class="genre">{{ genre }}</span>
-			{% endfor %}
+		<div class="genres">			
+			<form class="search" method="post" action="/tags/search">
+				{% for genre in artist.genres %}
+					<input type="submit" value="{{ genre }}" name="search_term" class="btn btn-default btn-sm">
+				{% endfor %}
+			</form>
 		</div>
 		<p>
 			<i class="fas fa-globe-americas"></i> {{ artist.city }}, {{ artist.state }}
@@ -40,7 +43,10 @@
 		{% endif %}
 	</div>
 	<div class="col-sm-6">
-		<img src="{{ artist.image_link }}" alt="Venue Image" />
+		<img src="{{ artist.image_link }}" alt="Artist Image" />
+	</div>
+	<div>
+		<a href="/artist/{{ artist.id }}/delete"><button class="btn btn-primary btn-lg">Delete artist</button></a>
 	</div>
 </div>
 <section>
