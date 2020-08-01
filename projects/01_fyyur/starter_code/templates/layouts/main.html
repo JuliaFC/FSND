@@ -63,8 +63,7 @@
                   placeholder="Find a venue"
                   aria-label="Search">
               </form>
-              {% endif %}
-              {% if (request.endpoint == 'artists') or
+              {% elif (request.endpoint == 'artists') or
                 (request.endpoint == 'search_artists') or
                 (request.endpoint == 'show_artist') %}
               <form class="search" method="post" action="/artists/search">
@@ -74,7 +73,16 @@
                   placeholder="Find an artist"
                   aria-label="Search">
               </form>
+              {% else %}
+              <form class="search" method="post" action="/search">
+                <input class="form-control"
+                  type="search"
+                  name="search_term"
+                  placeholder="Search by location: San Francisco, CA"
+                  aria-label="Search">
+              </form>
               {% endif %}
+
             </li>
           </ul>
           <ul class="nav navbar-nav">

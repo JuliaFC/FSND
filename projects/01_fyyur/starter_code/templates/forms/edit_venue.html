@@ -43,7 +43,11 @@
       <div class="form-group">
           <label for="genres">Facebook Link</label>
           {{ form.facebook_link(class_ = 'form-control', placeholder='http://', autofocus = true, required = false) }}
-        </div>
+      </div>
+      <div class="form-group">
+        <label for="genres">Image Link</label>
+        {{ form.image_link(class_ = 'form-control', placeholder='http://', autofocus = true, required = false) }}
+      </div>
       <input type="submit" value="Edit Venue" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>

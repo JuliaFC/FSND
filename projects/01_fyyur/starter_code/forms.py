@@ -232,5 +232,3 @@ class ArtistForm(Form):
     image_link = StringField(
         'image_link'
     )
-
-# TODO IMPLEMENT NEW ARTIST FORM AND NEW SHOW FORM
