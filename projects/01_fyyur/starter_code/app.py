@@ -42,8 +42,9 @@ class Venue(db.Model):
     genres = db.Column(db.ARRAY(db.String))
     seeking_talent = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String(240))
+    facebook_link = db.Column(db.String(240))
     image_link = db.Column(db.String(240))
-    facebook_link = db.Column(db.String(120))
+    website = db.Column(db.String(240))
     show = db.relationship('Show', backref=db.backref('Venue', lazy=True))
 
 
@@ -58,9 +59,9 @@ class Artist(db.Model):
     genres = db.Column(db.ARRAY(db.String))
     seeking_venue = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String(240))
-    facebook_link = db.Column(db.String(120))
+    facebook_link = db.Column(db.String(240))
     image_link = db.Column(db.String(240))
-    website = db.Column(db.String(120))
+    website = db.Column(db.String(240))
     show = db.relationship('Show', backref=db.backref('Artist', lazy=True))
 
 
@@ -175,11 +176,14 @@ def show_venue(venue_id):
         "seeking_description": venue.seeking_description,
         "image_link": venue.image_link,
         "facebook_link": venue.facebook_link,
+        "website": venue.website,
         "upcoming_shows_count": len(upcoming_shows_data),
         "upcoming_shows": upcoming_shows_data,
         "past_shows_count": len(past_shows_data),
         "past_shows": past_shows_data
     }
+    print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+    print(data)
 
   except SQLAlchemyError as e:
     data = {}
@@ -213,10 +217,11 @@ def create_venue_submission():
     seeking_description = request.form.get('seeking_description', '')
     facebook_link = request.form.get('facebook_link')
     image_link = request.form.get('image_link')
+    website = request.form.get('website')
 
     seeking_talent = format_boolean(seeking_talent)
 
-    venue = Venue(name=name, city=city, state=state, address=address, phone=phone, genres=genres, seeking_talent=seeking_talent, seeking_description=seeking_description, facebook_link= facebook_link, image_link=image_link)
+    venue = Venue(name=name, city=city, state=state, address=address, phone=phone, genres=genres, seeking_talent=seeking_talent, seeking_description=seeking_description, facebook_link= facebook_link, image_link=image_link, website=website)
     db.session.add(venue)
     db.session.commit()
 
@@ -484,6 +489,8 @@ def edit_venue_submission(venue_id):
     venue.seeking_description = change(venue.seeking_description, request.form.get('seeking_description'))
     venue.facebook_link = change(venue.facebook_link, request.form.get('facebook_link'))
     venue.image_link = change(venue.facebook_link, request.form.get('image_link'))
+    venue.website = change(venue.website, request.form.get('website'))
+
 
     db.session.commit()
   except SQLAlchemyError as e:

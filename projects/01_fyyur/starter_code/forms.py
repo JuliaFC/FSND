@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask_wtf import Form
 from wtforms import BooleanField, StringField, SelectField, SelectMultipleField, DateTimeField
+from wtforms.fields.html5 import  URLField
 from wtforms.validators import DataRequired, AnyOf, URL
 
 class ShowForm(Form):
@@ -119,12 +120,14 @@ class VenueForm(Form):
             ('Other', 'Other'),
         ]
     )
-    facebook_link = StringField(
-        'facebook_link', validators=[URL()]
+    facebook_link = URLField(
+        'facebook_link', validators=[DataRequired(), URL(message="Enter Valid URL Please.")]
     )
-
-    image_link = StringField(
-        'image_link', validators=[URL()]
+    image_link =  URLField(
+        'image_link', validators=[DataRequired(), URL(message="Enter Valid URL Please.")]
+    )
+    website =  URLField(
+        'website', validators=[DataRequired(), URL(message="Enter Valid URL Please.")]
     )
 
 class ArtistForm(Form):
@@ -223,12 +226,13 @@ class ArtistForm(Form):
             ('Other', 'Other'),
         ]
     )
-    facebook_link = StringField(
-        'facebook_link', validators=[URL(), DataRequired()]
+    facebook_link = URLField(
+        'facebook_link', validators=[DataRequired(), URL(message="Enter Valid URL Please.")]
     )
-    image_link = StringField(
-        'image_link', validators=[URL(), DataRequired()]
+    image_link =  URLField(
+        'image_link', validators=[DataRequired(), URL(message="Enter Valid URL Please.")]
     )
-    website = StringField(
-        'website', validators=[URL(), DataRequired()]
+    website =  URLField(
+        'website', validators=[DataRequired(), URL(message="Enter Valid URL Please.")]
     )
+    
