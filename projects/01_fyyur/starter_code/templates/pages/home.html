@@ -17,9 +17,33 @@
 		<h3>
 			<a href="/shows/create"><button class="btn btn-default btn-lg">Post a show</button></a>
 		</h3>
-	</div>
+	</div>	
 	<div class="col-sm-6 hidden-sm hidden-xs">
 		<img id="front-splash" src="{{ url_for('static',filename='img/front-splash.jpg') }}" alt="Front Photo of Musical Band" />
 	</div>
 </div>
+
+	<p class="lead">Recently listed:</p>
+	
+		<div class="row">	
+			{%for artist in artists %}
+			<div class="col-sm-4">
+				<div class="tile tile-show">
+					<img src="{{ artist.image_link }}" alt="Artist Image" />
+					<h4><i class="fas fa-users"></i><a href="/artists/{{ artist.id }}"> {{ artist.name }}</a></h4>
+				</div>
+			</div>
+			{% endfor %}
+			{%for venue in venues %}
+			<div class="col-sm-4">
+				<div class="tile tile-show">
+					<img src="{{ venue.image_link }}" alt="Venue Image" />			
+					<h4><i class="fas fa-music"></i><a href="/venues/{{ venue.id }}"> {{ venue.name }}</a></h4>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+
+
+
 {% endblock %}
