@@ -5,6 +5,8 @@ import Question from './Question';
 import Search from './Search';
 import $ from 'jquery';
 
+const serverUrl = "http://127.0.0.1:";
+
 class QuestionView extends Component {
   constructor(){
     super();
@@ -23,7 +25,7 @@ class QuestionView extends Component {
 
   getQuestions = () => {
     $.ajax({
-      url: `/questions?page=${this.state.page}`, //TODO: update request URL
+      url: serverUrl + `/questions?page=${this.state.page}`, 
       type: "GET",
       success: (result) => {
         this.setState({
@@ -60,7 +62,7 @@ class QuestionView extends Component {
 
   getByCategory= (id) => {
     $.ajax({
-      url: `/categories/${id}/questions`, //TODO: update request URL
+      url: serverUrl + `/categories/${id}/questions`, 
       type: "GET",
       success: (result) => {
         this.setState({
@@ -78,7 +80,7 @@ class QuestionView extends Component {
 
   submitSearch = (searchTerm) => {
     $.ajax({
-      url: `/questions`, //TODO: update request URL
+      url: serverUrl + `/questions`, 
       type: "POST",
       dataType: 'json',
       contentType: 'application/json',
@@ -105,7 +107,7 @@ class QuestionView extends Component {
     if(action === 'DELETE') {
       if(window.confirm('are you sure you want to delete the question?')) {
         $.ajax({
-          url: `/questions/${id}`, //TODO: update request URL
+          url: serverUrl + `/questions/${id}`, 
           type: "DELETE",
           success: (result) => {
             this.getQuestions();
