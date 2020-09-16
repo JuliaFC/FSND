@@ -4,8 +4,8 @@ import '../stylesheets/App.css';
 import Question from './Question';
 import Search from './Search';
 import $ from 'jquery';
+import {SERVER_URL} from '../constants'
 
-const serverUrl = "http://127.0.0.1:";
 
 class QuestionView extends Component {
   constructor(){
@@ -21,11 +21,12 @@ class QuestionView extends Component {
 
   componentDidMount() {
     this.getQuestions();
+    console.log(SERVER_URL)
   }
 
   getQuestions = () => {
     $.ajax({
-      url: serverUrl + `/questions?page=${this.state.page}`, 
+      url: SERVER_URL + `/questions?page=${this.state.page}`, 
       type: "GET",
       success: (result) => {
         this.setState({
@@ -62,7 +63,7 @@ class QuestionView extends Component {
 
   getByCategory= (id) => {
     $.ajax({
-      url: serverUrl + `/categories/${id}/questions`, 
+      url: SERVER_URL + `/categories/${id}/questions`, 
       type: "GET",
       success: (result) => {
         this.setState({
@@ -80,7 +81,7 @@ class QuestionView extends Component {
 
   submitSearch = (searchTerm) => {
     $.ajax({
-      url: serverUrl + `/questions`, 
+      url: SERVER_URL + `/questions`, 
       type: "POST",
       dataType: 'json',
       contentType: 'application/json',
@@ -107,7 +108,7 @@ class QuestionView extends Component {
     if(action === 'DELETE') {
       if(window.confirm('are you sure you want to delete the question?')) {
         $.ajax({
-          url: serverUrl + `/questions/${id}`, 
+          url: SERVER_URL + `/questions/${id}`, 
           type: "DELETE",
           success: (result) => {
             this.getQuestions();
