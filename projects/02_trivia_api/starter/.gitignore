@@ -4,6 +4,7 @@ venv
 
 # OS generated files #
 ######################
+backend/env/
 node_modules
 debug.log
 .DS_Store
