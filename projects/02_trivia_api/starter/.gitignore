@@ -4,6 +4,8 @@ venv
 
 # OS generated files #
 ######################
+node_modules
+debug.log
 .DS_Store
 .DS_Store?
 ._*
