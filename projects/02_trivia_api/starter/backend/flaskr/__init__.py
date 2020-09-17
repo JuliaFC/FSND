@@ -19,6 +19,7 @@ def create_app(test_config=None):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
     response.headers.add('Access-Control-Allow-Credentials', 'true')
+    response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:3000')
     return response
 
   '''
@@ -26,12 +27,15 @@ def create_app(test_config=None):
   Create an endpoint to handle GET requests 
   for all available categories.
   '''
-  @app.route('/categories', methods=['GET'])
+  @app.route('/categories')
   def categories():
     categories = Category.query.all()
-    print(categories)
+    categories = [{'id': c.id, 'type': c.type} for c in categories]
 
-  return jsonify({'categories': categories})
+    return jsonify({
+      'success': True,
+      'categories': categories
+      })
 
 
   '''
