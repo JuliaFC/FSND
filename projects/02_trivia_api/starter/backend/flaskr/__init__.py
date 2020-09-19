@@ -49,7 +49,7 @@ def create_app(test_config=None):
         total_questions = len(questions)
 
         available_categories = Category.query.all()
-        categories = []
+        categories = ['All']
         
         for category in available_categories:
           categories.append(category.type)
