@@ -35,7 +35,7 @@ def create_app(test_config=None):
   for all available categories.
   '''
     @app.route('/categories')
-    def categories():
+    def get_categories():
         categories = Category.query.all()
         categories = [{'id': c.id, 'type': c.type} for c in categories]
 
@@ -57,22 +57,27 @@ def create_app(test_config=None):
   for three pages. Clicking on the page numbers should update the questions.
   '''
 
-    @app.route('/questions')
-    def questions():
-        questions = Question.query.all()
+    @app.route('/questions', methods=['GET'])
+    def get_questions():
+        page = request.args.get('page', 1, type=int)
+        paginated_questions = Question.query.order_by(Question.id).paginate(page, QUESTIONS_PER_PAGE, False)
+
+        questions = [question.format() for question in paginated_questions.items]
+        total_questions = len(questions)
+
+        categories = []
+        for question in questions:
+          if question['category'] not in categories:
+            categories.append(question['category'])
+
         print(questions)
-        # questions: result.questions,
-        # totalQuestions: result.total_questions,
-        # categories: result.categories,
-        # currentCategory: result.current_category
 
         return jsonify({
             'success': True,
-            'questions': {None},
-            'totalQuestions': 0,
-            'categories': {},
-            'currentCategory': 'None',
-
+            'questions': questions,
+            'totalQuestions': total_questions,
+            'categories': categories,
+            'currentCategory': None,
         })
 
     '''
