@@ -60,17 +60,16 @@ def create_app(test_config=None):
     @app.route('/questions', methods=['GET'])
     def get_questions():
         page = request.args.get('page', 1, type=int)
-        paginated_questions = Question.query.order_by(Question.id).paginate(page, QUESTIONS_PER_PAGE, False)
+        paginated_questions = Question.query.paginate(page, QUESTIONS_PER_PAGE, False)
 
         questions = [question.format() for question in paginated_questions.items]
         total_questions = len(questions)
 
+        available_categories = Category.query.all()
         categories = []
-        for question in questions:
-          if question['category'] not in categories:
-            categories.append(question['category'])
-
-        print(questions)
+        
+        for category in available_categories:
+          categories.append(category.type)
 
         return jsonify({
             'success': True,
