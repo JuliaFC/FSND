@@ -42,6 +42,8 @@ def create_app(test_config=None):
         })
 
     @app.route('/questions', methods=['GET'])
+    @app.route('/list', methods=['GET'])
+
     def get_questions():
         page = request.args.get('page', 1, type=int)
         paginated_questions = Question.query.paginate(page, QUESTIONS_PER_PAGE, False)
@@ -84,25 +86,24 @@ def create_app(test_config=None):
         question.delete()
       except SQLAlchemyError as e:
         success = False
-        print('Question could not be found!')
       finally:
         return jsonify({
             'success': success
         })
 
+    @app.route('/questions/add', methods=['POST'])
+    def add_question():
+      question = request.get_json().get('question')
+      answer = request.get_json().get('answer')
+      difficulty = request.get_json().get('difficulty')
+      category = request.get_json().get('category')
+      new_question = Question(question=question, answer=answer, difficulty=difficulty, category=category)
+      new_question.insert()
+      return jsonify({
+            'success': True,
+        })
 
-    '''
-    @TODO:
-    Create an endpoint to POST a new question,
-    which will require the question and answer text,
-    category, and difficulty score.
-
-    TEST: When you submit a question on the "Add" tab,
-    the form will clear and the question will appear at the end of the last page
-    of the questions list in the "List" tab.
-    '''
-
-    @app.route('/questions', methods=['POST'])
+    @app.route('/questions/search', methods=['POST'])
     def search_question():
       search_term = request.get_json().get('searchTerm')
 
@@ -117,14 +118,6 @@ def create_app(test_config=None):
             'currentCategory': questions[0]['category']
         })
 
-    '''
-    @TODO:
-    Create a GET endpoint to get questions based on category.
-
-    TEST: In the "List" tab / main screen, clicking on one of the
-    categories in the left column will cause only questions of that
-    category to be shown.
-    '''
 
     '''
     @TODO:
