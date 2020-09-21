@@ -36,7 +36,7 @@ class FormView extends Component {
   submitQuestion = (event) => {
     event.preventDefault();
     $.ajax({
-      url: SERVER_URL + '/questions', 
+      url: SERVER_URL + '/questions/add', 
       type: "POST",
       dataType: 'json',
       contentType: 'application/json',
@@ -91,9 +91,9 @@ class FormView extends Component {
           <label>
             Category
             <select name="category" onChange={this.handleChange}>
-              {Object.keys(this.state.categories).map(id => {
+              {Object.keys(this.state.categories).map((id,) => {
                   return (
-                    <option key={id} value={id}>{this.state.categories[id]}</option>
+                    <option key={id} value={id}>{this.state.categories[id].type}</option>
                   )
                 })}
             </select>
