@@ -47,8 +47,7 @@ def create_app(test_config=None):
         paginated_questions = Question.query.paginate(page, QUESTIONS_PER_PAGE, False)
 
         questions = [question.format() for question in paginated_questions.items]
-        total_questions = len(questions)
-
+        total_questions = len(Question.query.all())
         available_categories = Category.query.all()
         categories = ['All']
 
@@ -102,9 +101,6 @@ def create_app(test_config=None):
     the form will clear and the question will appear at the end of the last page
     of the questions list in the "List" tab.
     '''
-
-  
-
 
     @app.route('/questions', methods=['POST'])
     def search_question():
