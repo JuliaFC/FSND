@@ -23,7 +23,7 @@ class App extends Component {
           <Route path="/" exact component={QuestionView} />
           <Route path="/add" component={FormView} />
           <Route path="/play" component={QuizView} />
-          <Route component={QuestionView} />
+          <Route path="/list" component={QuestionView} />
         </Switch>
         {/* Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> */}
       </Router>

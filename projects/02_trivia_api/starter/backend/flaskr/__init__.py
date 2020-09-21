@@ -67,12 +67,15 @@ def create_app(test_config=None):
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def get_questions_by_category(category_id):
         page = request.args.get('page', 1, type=int)
-        paginated_questions = Question.query.filter(
-            Question.category == category_id +
-            1).paginate(
-            page,
-            QUESTIONS_PER_PAGE,
-            False)
+        try:
+            paginated_questions = Question.query.filter(
+                Question.category == category_id +
+                1).paginate(
+                page,
+                QUESTIONS_PER_PAGE,
+                False)
+        except:
+            abort(404)
 
         questions = [question.format()
                      for question in paginated_questions.items]
@@ -91,8 +94,8 @@ def create_app(test_config=None):
         try:
             question = Question.query.get(question_id)
             question.delete()
-        except SQLAlchemyError as e:
-            success = False
+        except:
+            abort(404)
         finally:
             return jsonify({
                 'success': success
@@ -100,16 +103,20 @@ def create_app(test_config=None):
 
     @app.route('/questions/add', methods=['POST'])
     def add_question():
-        question = request.get_json().get('question')
-        answer = request.get_json().get('answer')
-        difficulty = request.get_json().get('difficulty')
-        category = request.get_json().get('category')
-        new_question = Question(
-            question=question,
-            answer=answer,
-            difficulty=difficulty,
-            category=category)
-        new_question.insert()
+        try:
+            question = request.get_json().get('question')
+            answer = request.get_json().get('answer')
+            difficulty = request.get_json().get('difficulty')
+            category = request.get_json().get('category')
+            new_question = Question(
+                question=question,
+                answer=answer,
+                difficulty=difficulty,
+                category=category)
+            new_question.insert()
+        except:
+            abort(500)
+
         return jsonify({
             'success': True,
         })
@@ -117,11 +124,13 @@ def create_app(test_config=None):
     @app.route('/questions/search', methods=['POST'])
     def search_question():
         search_term = request.get_json().get('searchTerm')
-
-        res = Question.query.filter(
-            Question.question.ilike(f'%{search_term}%')).all()
-        questions = [question.format() for question in res]
-        total_questions = len(questions)
+        try:
+            res = Question.query.filter(
+                Question.question.ilike(f'%{search_term}%')).all()
+            questions = [question.format() for question in res]
+            total_questions = len(questions)
+        except:
+            abort(400)
 
         return jsonify({
             'success': True,
@@ -146,28 +155,28 @@ def create_app(test_config=None):
     def bad_request(error):
         return jsonify({
             'success': False,
-            'error': error,
+            'error': error.code,
         }), 400
 
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({
             'success': False,
-            'error': error,
+            'error': error.code,
         }), 404
 
     @app.errorhandler(422)
     def unprocessable_entity(error):
         return jsonify({
             'success': False,
-            'error': error,
+            'error': error.code,
         }), 422
 
     @app.errorhandler(500)
     def server_error(error):
         return jsonify({
             'success': False,
-            'error': error,
+            'error': error.code,
         }), 500
 
     return app
