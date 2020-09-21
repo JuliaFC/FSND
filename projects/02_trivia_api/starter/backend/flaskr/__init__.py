@@ -51,7 +51,7 @@ def create_app(test_config=None):
         questions = [question.format() for question in paginated_questions.items]
         total_questions = len(Question.query.all())
         available_categories = Category.query.all()
-        categories = ['All']
+        categories = []
 
         for category in available_categories:
           categories.append(category.type)
@@ -66,7 +66,7 @@ def create_app(test_config=None):
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def get_questions_by_category(category_id):
       page = request.args.get('page', 1, type=int)
-      paginated_questions = Question.query.filter(Question.category == category_id).paginate(page, QUESTIONS_PER_PAGE, False)
+      paginated_questions = Question.query.filter(Question.category == category_id+1).paginate(page, QUESTIONS_PER_PAGE, False)
 
       questions = [question.format() for question in paginated_questions.items]
       total_questions = len(questions)
