@@ -25,6 +25,7 @@ class App extends Component {
           <Route path="/play" component={QuizView} />
           <Route component={QuestionView} />
         </Switch>
+        {/* Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> */}
       </Router>
     </div>
   );

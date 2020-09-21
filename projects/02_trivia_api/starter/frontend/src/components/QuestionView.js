@@ -27,12 +27,12 @@ class QuestionView extends Component {
     $.ajax({
       url: SERVER_URL + `/questions?page=${this.state.page}`, 
       type: "GET",
-      success: (result) => {
+      success: (result) => { 
         this.setState({
           questions: result.questions,
-          totalQuestions: result.total_questions,
+          totalQuestions: result.totalQuestions,
           categories: result.categories,
-          currentCategory: result.current_category })
+          currentCategory: result.currentCategory })
         return;
       },
       error: (error) => {
@@ -129,7 +129,7 @@ class QuestionView extends Component {
           <ul>
             {Object.keys(this.state.categories).map((id, ) => (
               <li key={id} onClick={() => {this.getByCategory(id)}}>
-                {this.state.categories[id].type}
+                {this.state.categories[id]}
                 <img className="category" src={`${this.state.categories[id]}.svg`}/>
               </li>
             ))}
