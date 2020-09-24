@@ -11,6 +11,7 @@ import FormView from './components/FormView';
 import QuestionView from './components/QuestionView';
 import Header from './components/Header';
 import QuizView from './components/QuizView';
+import PageNotFound from './components/PageNotFound';
 
 
 class App extends Component {
@@ -24,8 +25,8 @@ class App extends Component {
           <Route path="/add" component={FormView} />
           <Route path="/play" component={QuizView} />
           <Route path="/list" component={QuestionView} />
+          <Route component={PageNotFound} />
         </Switch>
-        {/* Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> */}
       </Router>
     </div>
   );

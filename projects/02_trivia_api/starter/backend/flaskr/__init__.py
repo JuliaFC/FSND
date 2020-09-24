@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy.exc import SQLAlchemyError
 
-import random
+from random import randrange
 
 from models import setup_db, Question, Category
 
@@ -150,6 +150,30 @@ def create_app(test_config=None):
     one question at a time is displayed, the user is allowed to answer
     and shown whether they were correct or not.
     '''
+    @app.route('/quizzes', methods=['POST'])
+    def play():
+        previous_questions = request.get_json().get('previous_questions')
+        quiz_category = request.get_json().get('quiz_category')
+        cat = (int(quiz_category['id'])+1)
+        try:
+            res = Question.query.filter(Question.category == cat).all()
+            all_questions = [r.id for r in res]
+            possible_questions = list(set(all_questions) - set(previous_questions))
+            possible_questions_length = len(possible_questions)
+            
+            idx = 0 if possible_questions_length == 0 else randrange(possible_questions_length)
+            next_question = None
+            for r in res:
+                if len(possible_questions) > 0:
+                    if r.id == possible_questions[idx]:
+                        next_question = r.format()      
+        except:
+            abort(400)
+        print(next_question)
+        return jsonify({
+            'success': True,
+            'question': next_question
+        })
 
     @app.errorhandler(400)
     def bad_request(error):
