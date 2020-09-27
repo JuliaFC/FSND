@@ -89,6 +89,19 @@ GET '/categories'
 '5' : "Entertainment",
 '6' : "Sports"}
 
+GET '/questions''/list'
+- Returns all available questions, paginated according to QUESTIONS_PER_PAGE
+- Request Arguments: None
+- Returns: An object with a multiple keys:
+ - questions: an object array with the keys {id, question, answer, difficulty, category} that represents all questions present on the current page
+    [{'id' : "1",
+    'question' : "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?",
+    'answer' : "Apollo 13",
+    'difficulty' : "4",
+    'category' : "5"}]
+- totalQuestions: the number of total questions in the database
+- categories: the categories from which the current questions on the page are
+
 ```
 
 
