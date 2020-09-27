@@ -81,26 +81,57 @@ DELETE ...
 GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-{'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"}
+- Returns: 
+    - success: boolean
+    - categories: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
+    {'1' : "Science",
+    '2' : "Art",
+    '3' : "Geography",
+    '4' : "History",
+    '5' : "Entertainment",
+    '6' : "Sports"}
 
 GET '/questions''/list'
 - Returns all available questions, paginated according to QUESTIONS_PER_PAGE
 - Request Arguments: None
 - Returns: An object with a multiple keys:
- - questions: an object array with the keys {id, question, answer, difficulty, category} that represents all questions present on the current page
+    - success: boolean
+    - questions: an object array with the keys {id, question, answer, difficulty, category} that represents all questions present on the current page
     [{'id' : "1",
     'question' : "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?",
     'answer' : "Apollo 13",
     'difficulty' : "4",
     'category' : "5"}]
-- totalQuestions: the number of total questions in the database
-- categories: the categories from which the current questions on the page are
+
+    - totalQuestions: the number of total questions in the database
+    - categories: the categories from which the current questions on the page are
+
+GET '/categories/<int:category_id>/questions'
+- Returns all questions in a given category
+- Request Arguments: A number, the category ID
+- Returns: An object with a multiple keys:
+    - success: boolean
+    - questions: an object array with the keys {id, question, answer, difficulty, category} that represents all questions present on the current page
+    [{'id' : "1",
+    'question' : "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?",
+    'answer' : "Apollo 13",
+    'difficulty' : "4",
+    'category' : "5"}]
+
+    - totalQuestions: the number of total questions in the database
+    - currentCategory: the current category of questions being fetched
+
+DELETE '/questions/<int:question_id>'
+- Delete a question with a given question ID
+- Request Arguments: A number, the question ID
+- Returns:     
+    - success: boolean
+
+POST '/questions/add'
+- Adds a question with the given arguments
+- Request Arguments: A number, the question ID
+- Returns:     
+    - success: boolean
 
 ```
 

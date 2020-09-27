@@ -68,7 +68,6 @@ def create_app(test_config=None):
             'questions': questions,
             'totalQuestions': total_questions,
             'categories': categories,
-            'currentCategory': None,
         })
 
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
