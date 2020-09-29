@@ -33,12 +33,11 @@ def create_app(test_config=None):
 
     @app.route('/categories', methods=['GET'])
     def get_categories():
-        try:
-            categories = Category.query.all()
-            categories = [{'id': c.id, 'type': c.type} for c in categories]
-        except BaseException:
-            abort(400)
 
+        categories = Category.query.all()
+        categories = [{'id': c.id, 'type': c.type} for c in categories]
+        if categories is None:
+            abort(400)
         return jsonify({
             'success': True,
             'categories': categories
@@ -129,12 +128,11 @@ def create_app(test_config=None):
     @app.route('/questions/search', methods=['POST'])
     def search_question():
         search_term = request.get_json().get('searchTerm')
-        try:
-            res = Question.query.filter(
-                Question.question.ilike(f'%{search_term}%')).all()
-            questions = [question.format() for question in res]
-            total_questions = len(questions)
-        except BaseException:
+        res = Question.query.filter(
+            Question.question.ilike(f'%{search_term}%')).all()
+        questions = [question.format() for question in res]
+        total_questions = len(questions)
+        if not questions:
             abort(400)
 
         return jsonify({
@@ -148,24 +146,26 @@ def create_app(test_config=None):
     def play():
         previous_questions = request.get_json().get('previous_questions')
         quiz_category = request.get_json().get('quiz_category')
-        cat = (int(quiz_category['id']) + 1)
-        try:
-            res = Question.query.filter(Question.category == cat).all()
-            all_questions = [r.id for r in res]
-            possible_questions = list(
-                set(all_questions) - set(previous_questions))
-            possible_questions_length = len(possible_questions)
 
-            idx = 0 if possible_questions_length == 0 else randrange(
-                possible_questions_length)
-            next_question = None
-            for r in res:
-                if len(possible_questions) > 0:
-                    if r.id == possible_questions[idx]:
-                        next_question = r.format()
-        except BaseException:
-            abort(400)
-        print(next_question)
+        # This conditional handles when the "ALL" category is picked
+        if int(quiz_category['id']) == -1:
+            res = Question.query.all()
+        else:
+            cat = (int(quiz_category['id']) + 1)
+            res = Question.query.filter(Question.category == cat).all()
+        all_questions = [r.id for r in res]
+        possible_questions = list(
+            set(all_questions) - set(previous_questions))
+        possible_questions_length = len(possible_questions)
+
+        idx = 0 if possible_questions_length == 0 else randrange(
+            possible_questions_length)
+        next_question = None
+        for r in res:
+            if len(possible_questions) > 0:
+                if r.id == possible_questions[idx]:
+                    next_question = r.format()
+
         return jsonify({
             'success': True,
             'question': next_question
