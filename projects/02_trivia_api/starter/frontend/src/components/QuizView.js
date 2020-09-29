@@ -36,7 +36,7 @@ class QuizView extends Component {
     })
   }
 
-  selectCategory = ({type, id=0}) => {
+  selectCategory = ({type, id=-1}) => {
     this.setState({quizCategory: {type, id}}, this.getNextQuestion)
   }
 
@@ -101,7 +101,6 @@ class QuizView extends Component {
   }
 
   renderPrePlay(){
-    console.log(this.state.categories)
       return (
           <div className="quiz-play-holder">
               <div className="choose-header">Choose Category</div>
