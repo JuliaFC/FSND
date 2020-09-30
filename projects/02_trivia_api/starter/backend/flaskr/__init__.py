@@ -15,21 +15,36 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
     setup_db(app)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, resultsources={r"/api/*": {"origins": "*"}})
 
     @app.after_request
-    def after_request(response):
-        response.headers.add(
+    def after_request(resultsponse):
+        resultsponse.headers.add(
             'Access-Control-Allow-Headers',
             'Content-Type, Authorization')
-        response.headers.add(
+        resultsponse.headers.add(
             'Access-Control-Allow-Methods',
             'GET, POST, PATCH, DELETE, OPTIONS')
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        response.headers.add(
+        resultsponse.headers.add('Access-Control-Allow-Credentials', 'true')
+        resultsponse.headers.add(
             'Access-Control-Allow-Origin',
             'http://localhost:3000')
-        return response
+        return resultsponse
+
+    def get_paginated_questions(page, category_id=None):
+        if category_id is not None:
+            paginated_questions = Question.query.filter(
+                Question.category == category_id +
+                1).paginate(
+                page,
+                QUESTIONS_PER_PAGE,
+                False)
+        else:
+            paginated_questions = Question.query.paginate(
+                page, QUESTIONS_PER_PAGE, False)
+        questions = [question.format()
+                     for question in paginated_questions.items]
+        return questions
 
     @app.route('/categories', methods=['GET'])
     def get_categories():
@@ -37,7 +52,7 @@ def create_app(test_config=None):
         categories = Category.query.all()
         categories = [{'id': c.id, 'type': c.type} for c in categories]
         if categories is None:
-            abort(400)
+            abort(404)
         return jsonify({
             'success': True,
             'categories': categories
@@ -48,10 +63,7 @@ def create_app(test_config=None):
     def get_questions():
 
         page = request.args.get('page', 1, type=int)
-        paginated_questions = Question.query.paginate(
-            page, QUESTIONS_PER_PAGE, False)
-        questions = [question.format()
-                     for question in paginated_questions.items]
+        questions = get_paginated_questions(page)
         if not questions:
             abort(404)
 
@@ -72,17 +84,10 @@ def create_app(test_config=None):
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def get_questions_by_category(category_id):
         page = request.args.get('page', 1, type=int)
-        paginated_questions = Question.query.filter(
-            Question.category == category_id +
-            1).paginate(
-            page,
-            QUESTIONS_PER_PAGE,
-            False)
-        if paginated_questions is None:
+        questions = get_paginated_questions(page, category_id)
+        if questions is None:
             abort(404)
 
-        questions = [question.format()
-                     for question in paginated_questions.items]
         total_questions = len(questions)
 
         return jsonify({
@@ -128,9 +133,9 @@ def create_app(test_config=None):
     @app.route('/questions/search', methods=['POST'])
     def search_question():
         search_term = request.get_json().get('searchTerm')
-        res = Question.query.filter(
+        results = Question.query.filter(
             Question.question.ilike(f'%{search_term}%')).all()
-        questions = [question.format() for question in res]
+        questions = [question.format() for question in results]
         total_questions = len(questions)
         if not questions:
             abort(400)
@@ -146,25 +151,29 @@ def create_app(test_config=None):
     def play():
         previous_questions = request.get_json().get('previous_questions')
         quiz_category = request.get_json().get('quiz_category')
-
+        print(previous_questions)
+        print(quiz_category)
         # This conditional handles when the "ALL" category is picked
         if int(quiz_category['id']) == -1:
-            res = Question.query.all()
+            results = Question.query.all()
         else:
-            cat = (int(quiz_category['id']) + 1)
-            res = Question.query.filter(Question.category == cat).all()
-        all_questions = [r.id for r in res]
+            current_category = (int(quiz_category['id']) + 1)
+            results = Question.query.filter(Question.category == current_category).all()
+        if not results:
+            abort(404)
+        all_questions = [r.id for r in results]
         possible_questions = list(
             set(all_questions) - set(previous_questions))
         possible_questions_length = len(possible_questions)
 
-        idx = 0 if possible_questions_length == 0 else randrange(
+        next_question_index = 0 if possible_questions_length == 0 else randrange(
             possible_questions_length)
         next_question = None
-        for r in res:
-            if len(possible_questions) > 0:
-                if r.id == possible_questions[idx]:
+        if possible_questions_length > 0:
+            for r in results:
+                if r.id == possible_questions[next_question_index]:
                     next_question = r.format()
+                    continue;
 
         return jsonify({
             'success': True,
