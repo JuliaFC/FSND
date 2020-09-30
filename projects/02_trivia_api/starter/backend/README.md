@@ -73,50 +73,66 @@ GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
 - Returns: 
-    - success, a boolean
-    - categories: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-    {'1' : "Science",
-    '2' : "Art",
-    '3' : "Geography",
-    '4' : "History",
-    '5' : "Entertainment",
-    '6' : "Sports"}
+    {
+        'success': boolean,
+        'categories': [{
+            'id': integer,
+            'type': string
+        }]
+    }
 
 GET '/questions''/list'
 - Returns all available questions, paginated according to QUESTIONS_PER_PAGE
 - Request Arguments: None
-- Returns: An object with a multiple keys:
-    - success, a boolean
-    - questions: an object array with the keys {id, question, answer, difficulty, category} that represents all questions present on the current page
-    [{'id' : "1",
-    'question' : "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?",
-    'answer' : "Apollo 13",
-    'difficulty' : "4",
-    'category' : "5"}]
-
-    - totalQuestions: the number of total questions in the database
-    - categories: the categories from which the current questions on the page are
-
+- Returns: 
+    {
+        'success': boolean,
+        'questions': {
+            'id': integer,
+            'question': string,
+            'answer': string,
+            'category': {
+                'id': integer,
+                'type': string
+            },
+            'difficulty': integer
+        },
+        'totalQuestions': integer,
+        'categories': [{
+            'id': integer,
+            'type': string
+        }]
+    }
 GET '/categories/<int:category_id>/questions'
 - Returns all questions in a given category
 - Request Arguments: category_id, an integer
-- Returns: An object with a multiple keys:
-    - success, a boolean
-    - questions: an object array with the keys {id, question, answer, difficulty, category} that represents all questions present on the current page
-    [{'id' : "1",
-    'question' : "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?",
-    'answer' : "Apollo 13",
-    'difficulty' : "4",
-    'category' : "5"}]
-
-    - totalQuestions: the number of total questions in the database
-    - currentCategory: the current category of questions being fetched
+- Returns:
+    {
+        'success': boolean,
+        'questions': {
+            'id': integer,
+            'question': string,
+            'answer': string,
+            'category': {
+                'id': integer,
+                'type': string
+            },
+            'difficulty': integer
+        },
+        'totalQuestions': integer,
+        'currentCategory': {
+            'id': integer,
+            'type': string
+        }
+    }
 
 DELETE '/questions/<int:question_id>'
 - Delete a question with a given question ID
 - Request Arguments: question_id, an integer
 - Returns:     
-    - success, a boolean
+    {
+        'success': boolean
+    }
 
 POST '/questions/add'
 - Adds a question with the given arguments
@@ -126,23 +142,49 @@ POST '/questions/add'
     - difficulty, an integer
     - category, an integer
 - Returns:     
-    - success, a boolean
+    {
+        'success': boolean
+    }
 
 POST '/questions/search'
 - Searches a question body for a given search term
 - Request Arguments: searchTerm, a string
 - Returns:
-    - success, a boolean     
-    - questions, list of questions that are a match for the search term
-    - totalQuestions, an integer
-    - currentCategory, the category_id of the category of the first question
-
+    {
+        'success': boolean,
+        'questions': {
+            'id': integer,
+            'question': string,
+            'answer': string,
+            'category': {
+                'id': integer,
+                'type': string
+            },
+            'difficulty': integer
+        },
+        'totalQuestions': integer,
+        'currentCategory': {
+            'id': integer,
+            'type': string
+        }
+    }
 POST '/quizzes'
 - Searches a question body for a given search term
 - Request Arguments: searchTerm, a string
 - Returns:
-    - success, a boolean     
-    - question, the next question to be played
+    {
+        'success': boolean,
+        'question': {
+            'id': integer,
+            'question': string,
+            'answer': string,
+            'category': {
+                'id': integer,
+                'type': string
+            },
+            'difficulty': integer
+        }
+    }
    
 ```
 
