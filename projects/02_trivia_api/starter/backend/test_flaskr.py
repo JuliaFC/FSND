@@ -51,6 +51,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(len(data['categories']))
 
     def test_get_categories_not_found(self):
+        # Switch to an empty database to test this specific scenario where there are no categories at all
         self.setUpDatabase(self.empty_database_name)
 
         res = self.client().get("/categories")

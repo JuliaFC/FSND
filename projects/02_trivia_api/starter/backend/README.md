@@ -190,7 +190,9 @@ POST '/quizzes'
 
 
 ## Testing
+If Flask was used in development mode before running the tests, please change the Flask environment to 'production'.
 To run the tests, run
+
 ```
 dropdb trivia_test
 createdb trivia_test
