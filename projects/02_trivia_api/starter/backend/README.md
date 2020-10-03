@@ -195,5 +195,8 @@ To run the tests, run
 dropdb trivia_test
 createdb trivia_test
 psql trivia_test < trivia.psql
+dropdb trivia_empty_test
+createdb -U postgres trivia_empty_test
+psql -U postgres trivia_empty_test < trivia_empty_test.psql
 python test_flaskr.py
 ```
