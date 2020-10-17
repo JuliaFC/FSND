@@ -12,7 +12,7 @@ setup_db(app)
 CORS(app)
 
 '''
-@TODO uncomment the following line to initialize the datbase
+@TODO uncomment the following line to initialize the database
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 '''
@@ -27,7 +27,17 @@ CORS(app)
     returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks', methods=['GET'])
+def get_drinks():
 
+    drinks = Drink.query.all()
+    if not drinks:
+        abort(404)
+    drinks = [d.short() for d in drinks]
+    return jsonify({
+        'success': True,
+        'drinks': drinks
+    })
 
 '''
 @TODO implement endpoint
@@ -79,30 +89,45 @@ CORS(app)
 '''
 Example error handling for unprocessable entity
 '''
-@app.errorhandler(422)
-def unprocessable(error):
-    return jsonify({
-                    "success": False, 
-                    "error": 422,
-                    "message": "unprocessable"
-                    }), 422
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify({
+            "success": False,
+            "error": 400,
+            "message": "Bad request"
+        }), 400
 
-'''
-@TODO implement error handlers using the @app.errorhandler(error) decorator
-    each error handler should return (with approprate messages):
-             jsonify({
-                    "success": False, 
-                    "error": 404,
-                    "message": "resource not found"
-                    }), 404
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "Resource not found"
+        }), 404
 
-'''
+    @app.errorhandler(405)
+    def method_not_allowed(error):
+        return jsonify({
+            "success": False,
+            "error": 405,
+            "message": "Method not allowed"
+        }), 405
 
-'''
-@TODO implement error handler for 404
-    error handler should conform to general task above 
-'''
+    @app.errorhandler(422)
+    def unprocessable_entity(error):
+        return jsonify({
+            "success": False,
+            "error": 422,
+            "message": "Unprocessable entity"
+        }), 422
 
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        return jsonify({
+            "success": False,
+            "error": 500,
+            "message": "Internal server error"
+        }), 500
 
 '''
 @TODO implement error handler for AuthError
