@@ -33,11 +33,18 @@ class AuthError(Exception):
 def get_token_auth_header():
     auth_header = request.headers['Authorization']
     if auth_header is None:
-        raise AuthError
+        raise AuthError({
+                            'code': 'no_header',
+                            'description': 'No header is present.'
+                        }, 400)
     
     header_parts = auth_header.split(' ')[1]
     if header_parts is None:
-        raise AuthError
+        raise AuthError({
+                            'code': 'malformed_header',
+                            'description': 'Header is malformed.'
+                        }, 400)
+    return header_parts
 
 '''
 @TODO implement check_permissions(permission, payload) method
@@ -51,7 +58,18 @@ def get_token_auth_header():
     return true otherwise
 '''
 def check_permissions(permission, payload):
-    raise Exception('Not Implemented')
+    if 'permissions' not in payload:
+                        raise AuthError({
+                            'code': 'invalid_claims',
+                            'description': 'Permissions not included in JWT.'
+                        }, 400)
+
+    if permission not in payload['permissions']:
+        raise AuthError({
+            'code': 'unauthorized',
+            'description': 'Permission not found.'
+        }, 403)
+    return True
 
 '''
 @TODO implement verify_decode_jwt(token) method
