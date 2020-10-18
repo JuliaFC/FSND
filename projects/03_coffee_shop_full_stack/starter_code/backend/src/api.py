@@ -18,15 +18,23 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 '''
 # db_drop_and_create_all()
 
+
 @app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:8100')
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST, PATCH, DELETE,OPTIONS')
-  response.headers.add('Access-Control-Allow-Credentials', 'true')
-  return response
+    response.headers.add(
+        'Access-Control-Allow-Origin',
+        'http://127.0.0.1:8100')
+    response.headers.add(
+        'Access-Control-Allow-Headers',
+        'Content-Type,Authorization')
+    response.headers.add(
+        'Access-Control-Allow-Methods',
+        'GET,PUT,POST, PATCH, DELETE,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
 
-## ROUTES
+# ROUTES
+
 
 @app.route('/drinks', methods=['GET'])
 def get_drinks(token):
@@ -41,6 +49,7 @@ def get_drinks(token):
         'drinks': drinks
     })
 
+
 @app.route('/drinks-detail', methods=['GET'])
 @requires_auth('get:drinks-detail')
 def get_drinks_detail(token):
@@ -52,10 +61,11 @@ def get_drinks_detail(token):
         'drinks': drinks
     })
 
+
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
 def add_drink(token):
-  
+
     title = request.get_json().get('title')
     recipe = request.get_json().get('recipe')
 
@@ -71,6 +81,7 @@ def add_drink(token):
         'drinks': all_drinks
     })
 
+
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
 def edit_drink(token, drink_id):
@@ -78,7 +89,7 @@ def edit_drink(token, drink_id):
 
     if not drink:
         abort(404)
-    
+
     drink.name = request.form.get('name')
     drink.recipe = json.dumps(request.form.get('recipe'))
     drink.update()
@@ -89,11 +100,12 @@ def edit_drink(token, drink_id):
         'drinks': drink
     })
 
+
 @app.route('/drinks/<int:drink_id>', methods=['DELETE'])
 @requires_auth('delete:drinks')
 def delete_drink(token, drink_id):
     drink = Drink.query.get(drink_id)
-    if not drink or drink == None:
+    if not drink or drink is None:
         abort(404)
 
     else:
@@ -104,10 +116,13 @@ def delete_drink(token, drink_id):
         'delete': drink_id
     })
 
-## Error Handling
+
+# Error Handling
 '''
 Example error handling for unprocessable entity
 '''
+
+
 @app.errorhandler(400)
 def bad_request(error):
     return jsonify({
@@ -115,6 +130,7 @@ def bad_request(error):
         "error": 400,
         "message": "Bad request"
     }), 400
+
 
 @app.errorhandler(404)
 def not_found(error):
@@ -124,6 +140,7 @@ def not_found(error):
         "message": "Resource not found"
     }), 404
 
+
 @app.errorhandler(405)
 def method_not_allowed(error):
     return jsonify({
@@ -131,6 +148,7 @@ def method_not_allowed(error):
         "error": 405,
         "message": "Method not allowed"
     }), 405
+
 
 @app.errorhandler(422)
 def unprocessable_entity(error):
@@ -140,6 +158,7 @@ def unprocessable_entity(error):
         "message": "Unprocessable entity"
     }), 422
 
+
 @app.errorhandler(500)
 def internal_server_error(error):
     return jsonify({
@@ -147,6 +166,7 @@ def internal_server_error(error):
         "error": 500,
         "message": "Internal server error"
     }), 500
+
 
 @app.errorhandler(AuthError)
 def auth_error(error):
