@@ -16,7 +16,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 '''
-# db_drop_and_create_all()
+db_drop_and_create_all()
 
 
 @app.after_request
@@ -44,7 +44,7 @@ def get_drinks():
     else:
         drinks = [d.long() for d in drinks]
     return jsonify({
-        'success': True,
+        "success": True,
         'drinks': drinks
     })
 
@@ -55,7 +55,7 @@ def get_drinks_detail(token):
     drinks = Drink.query.all()
     drinks = [d.long() for d in drinks]
     return jsonify({
-        'success': True,
+        "success": True,
         'drinks': drinks
     })
 
@@ -73,12 +73,10 @@ def add_drink(token):
 
         new_drink = Drink(title=title, recipe=json.dumps(recipe))
         new_drink.insert()
-        print(new_drink.id)
 
         all_drinks = Drink.query.all()
         drinks = [drink.long() for drink in all_drinks]
         drink = Drink.query.get(1)
-        print(drink.long())
 
         return jsonify({
             "success": True,
@@ -92,22 +90,32 @@ def add_drink(token):
 @requires_auth('patch:drinks')
 def edit_drink(token, drink_id):
     drink = Drink.query.get(drink_id)
-    body = request.get_json()
-    title = body.get('title')
-    recipe = body.get('recipe')
+    if drink is None:
+        return json.dumps({
+            "success":
+            False,
+            "error":
+            'Drink #' + str(drink_id) + ' not found to be edited'
+        }), 404
+    try:
+        body = request.get_json()
+        title = body.get('title')
+        recipe = body.get('recipe')
 
-    if not drink:
-        abort(404)
+        if (title is None) or (recipe is None):
+            abort(422)
 
-    drink.name = title
-    drink.recipe = json.dumps(recipe)
-    drink.update()
-    drink = drink.long()
+        drink.title = title
+        drink.recipe = json.dumps(recipe)
+        drink.update()
+        drink = drink.long()
 
-    return jsonify({
-        'success': True,
-        'drinks': drink
-    })
+        return jsonify({
+            "success": True,
+            "drink": drink
+            })
+    except IndexError:
+        abort(422)
 
 
 @app.route('/drinks/<int:drink_id>', methods=['DELETE'])
@@ -115,22 +123,23 @@ def edit_drink(token, drink_id):
 def delete_drink(token, drink_id):
     drink = Drink.query.get(drink_id)
     if not drink or drink is None:
-        abort(404)
-
+        return json.dumps({
+            "success":
+            False,
+            "error":
+            'Drink #' + str(drink_id) + ' not found to be edited'
+        }), 404
     else:
         drink.delete()
 
     return jsonify({
-        'success': True,
+        "success": True,
         'delete': drink_id
     })
 
 
-# Error Handling
-'''
-Example error handling for unprocessable entity
-'''
 
+# Error Handling
 
 @app.errorhandler(400)
 def bad_request(error):
