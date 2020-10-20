@@ -1,0 +1,754 @@
+{
+	"info": {
+		"_postman_id": "7dfa8d22-1097-4d7f-9a4c-944e5d254ecf",
+		"name": "Coffee Shop Full Stack",
+		"description": "Collection for Udacity's Full Stack Nano Degree project: Coffee Shop Full Stack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "public",
+			"item": [
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "394c4997-bfdc-4187-a462-5177cc3c0c30",
+								"exec": [
+									"pm.test(\"Get drinks OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks-detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0e765834-684c-41e8-8175-8dbb4f95b106",
+								"exec": [
+									"pm.test(\"No authorization header is present\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJyQmlLREd2NEJScWNxdkZMY2tnLSJ9.eyJpc3MiOiJodHRwczovL2Nvd2ZmZWVzaG9wLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZjhiMWFkYzc5Y2VjYTAwNzVmM2U2YmQiLCJhdWQiOiJjc2ZzIiwiaWF0IjoxNjAzMTMxNDA5LCJleHAiOjE2MDMxMzg2MDksImF6cCI6ImM4VW5SeEhlVUVZb3R0eExlRFdGaVdPZDc1aWVlSGQ2Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiXX0.PSlw67H_KxO0IzC8rEjBpC1id3i1UnxLamx2p29usvLkZgQSZs7seQ4LvyRW6xQgd2mPkjk6oa4PcReX5KLxJgFzhGSkCNTaaXGpT6E4K1Pm9kIb73Q1VNrFSKvZz6uMVtWJBWmq5syxwEKeu7s_nuak8dRKXAuis3wmFqojEZzm6JOpCHRSz_MmEdcbGYQ8U7_KGFFh5gZnHFs1mdCUCB99hYx7gkqd8cg_XNOd_hKjmBeJZhtj6dSVXdK-ea9EDNPhAdP8Dso7fks5R91U2PKTOL7gYfsn8dnJpRruwHe3V9qfBJLmOIYRx9O5LAIvVztcUxkzzEEbCsMkT4Zxuw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks-details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks-details"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8fb0326a-48f0-450c-a961-48393eadf85c",
+								"exec": [
+									"pm.test(\"No authorization header is present\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJyQmlLREd2NEJScWNxdkZMY2tnLSJ9.eyJpc3MiOiJodHRwczovL2Nvd2ZmZWVzaG9wLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZjhiMWFkYzc5Y2VjYTAwNzVmM2U2YmQiLCJhdWQiOiJjc2ZzIiwiaWF0IjoxNjAzMTMxNDA5LCJleHAiOjE2MDMxMzg2MDksImF6cCI6ImM4VW5SeEhlVUVZb3R0eExlRFdGaVdPZDc1aWVlSGQ2Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiXX0.PSlw67H_KxO0IzC8rEjBpC1id3i1UnxLamx2p29usvLkZgQSZs7seQ4LvyRW6xQgd2mPkjk6oa4PcReX5KLxJgFzhGSkCNTaaXGpT6E4K1Pm9kIb73Q1VNrFSKvZz6uMVtWJBWmq5syxwEKeu7s_nuak8dRKXAuis3wmFqojEZzm6JOpCHRSz_MmEdcbGYQ8U7_KGFFh5gZnHFs1mdCUCB99hYx7gkqd8cg_XNOd_hKjmBeJZhtj6dSVXdK-ea9EDNPhAdP8Dso7fks5R91U2PKTOL7gYfsn8dnJpRruwHe3V9qfBJLmOIYRx9O5LAIvVztcUxkzzEEbCsMkT4Zxuw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pumpkin Spice Latte\",\r\n    \"recipe\": {[\r\n        \"name\": \"Pumpkin\",\r\n        \"color\": \"orange\",\r\n        \"parts\": 1\r\n    ]}\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "70b7e58f-eb45-4d58-b891-275b3b944a0d",
+								"exec": [
+									"pm.test(\"No authorization header is present\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pumpkin Spice Coffee\",\r\n    \"recipe\": {[\r\n        \"name\": \"Pumpkin\",\r\n        \"color\": \"brown\",\r\n        \"parts\": 1\r\n    ]}\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks",
+								"1"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c382cd80-7472-44a4-aae5-48dad063c41d",
+								"exec": [
+									"pm.test(\"No authorization header is present\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pumpkin Spice Latte\",\r\n    \"recipe\": {[\r\n        \"name\": \"Pumpkin\",\r\n        \"color\": \"orange\",\r\n        \"parts\": 1\r\n    ]}\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks",
+								"1"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "barista",
+			"item": [
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5332442d-eb57-4309-9d0a-5596604b224f",
+								"exec": [
+									"pm.test(\"Get drinks OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks-detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e6692961-5347-4231-838a-adb361b308d1",
+								"exec": [
+									"pm.test(\"Get drinks detail\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an array\", function () {\r",
+									"    var response = pm.response.json();\r",
+									"    pm.expect(response.drinks).to.be.an('array')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{barista-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "Token eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJyQmlLREd2NEJScWNxdkZMY2tnLSJ9.eyJpc3MiOiJodHRwczovL2Nvd2ZmZWVzaG9wLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZjhiMWFkYzc5Y2VjYTAwNzVmM2U2YmQiLCJhdWQiOiJjc2ZzIiwiaWF0IjoxNjAzMTMxNDA5LCJleHAiOjE2MDMxMzg2MDksImF6cCI6ImM4VW5SeEhlVUVZb3R0eExlRFdGaVdPZDc1aWVlSGQ2Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiXX0.PSlw67H_KxO0IzC8rEjBpC1id3i1UnxLamx2p29usvLkZgQSZs7seQ4LvyRW6xQgd2mPkjk6oa4PcReX5KLxJgFzhGSkCNTaaXGpT6E4K1Pm9kIb73Q1VNrFSKvZz6uMVtWJBWmq5syxwEKeu7s_nuak8dRKXAuis3wmFqojEZzm6JOpCHRSz_MmEdcbGYQ8U7_KGFFh5gZnHFs1mdCUCB99hYx7gkqd8cg_XNOd_hKjmBeJZhtj6dSVXdK-ea9EDNPhAdP8Dso7fks5R91U2PKTOL7gYfsn8dnJpRruwHe3V9qfBJLmOIYRx9O5LAIvVztcUxkzzEEbCsMkT4Zxuw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks-detail",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks-detail"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e05f2cbb-ce2b-45db-ae82-c80c4bb9e8ce",
+								"exec": [
+									"pm.test(\"No authorization header is present\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJyQmlLREd2NEJScWNxdkZMY2tnLSJ9.eyJpc3MiOiJodHRwczovL2Nvd2ZmZWVzaG9wLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZjhiMWFkYzc5Y2VjYTAwNzVmM2U2YmQiLCJhdWQiOiJjc2ZzIiwiaWF0IjoxNjAzMTMxNDA5LCJleHAiOjE2MDMxMzg2MDksImF6cCI6ImM4VW5SeEhlVUVZb3R0eExlRFdGaVdPZDc1aWVlSGQ2Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiXX0.PSlw67H_KxO0IzC8rEjBpC1id3i1UnxLamx2p29usvLkZgQSZs7seQ4LvyRW6xQgd2mPkjk6oa4PcReX5KLxJgFzhGSkCNTaaXGpT6E4K1Pm9kIb73Q1VNrFSKvZz6uMVtWJBWmq5syxwEKeu7s_nuak8dRKXAuis3wmFqojEZzm6JOpCHRSz_MmEdcbGYQ8U7_KGFFh5gZnHFs1mdCUCB99hYx7gkqd8cg_XNOd_hKjmBeJZhtj6dSVXdK-ea9EDNPhAdP8Dso7fks5R91U2PKTOL7gYfsn8dnJpRruwHe3V9qfBJLmOIYRx9O5LAIvVztcUxkzzEEbCsMkT4Zxuw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pumpkin Spice Latte\",\r\n    \"recipe\": {[\r\n        \"name\": \"Pumpkin\",\r\n        \"color\": \"orange\",\r\n        \"parts\": 1\r\n    ]}\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e03da3f9-76d8-4d6e-874b-1a3e8499f856",
+								"exec": [
+									"pm.test(\"No authorization header is present\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJyQmlLREd2NEJScWNxdkZMY2tnLSJ9.eyJpc3MiOiJodHRwczovL2Nvd2ZmZWVzaG9wLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZjhiMWFkYzc5Y2VjYTAwNzVmM2U2YmQiLCJhdWQiOiJjc2ZzIiwiaWF0IjoxNjAzMTMxNDA5LCJleHAiOjE2MDMxMzg2MDksImF6cCI6ImM4VW5SeEhlVUVZb3R0eExlRFdGaVdPZDc1aWVlSGQ2Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiXX0.PSlw67H_KxO0IzC8rEjBpC1id3i1UnxLamx2p29usvLkZgQSZs7seQ4LvyRW6xQgd2mPkjk6oa4PcReX5KLxJgFzhGSkCNTaaXGpT6E4K1Pm9kIb73Q1VNrFSKvZz6uMVtWJBWmq5syxwEKeu7s_nuak8dRKXAuis3wmFqojEZzm6JOpCHRSz_MmEdcbGYQ8U7_KGFFh5gZnHFs1mdCUCB99hYx7gkqd8cg_XNOd_hKjmBeJZhtj6dSVXdK-ea9EDNPhAdP8Dso7fks5R91U2PKTOL7gYfsn8dnJpRruwHe3V9qfBJLmOIYRx9O5LAIvVztcUxkzzEEbCsMkT4Zxuw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pumpkin Spice Coffee\",\r\n    \"recipe\": {[\r\n        \"name\": \"Pumpkin\",\r\n        \"color\": \"brown\",\r\n        \"parts\": 1\r\n    ]}\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks",
+								"1"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7cbd5fc-1240-4762-a699-5f85cc9f5ef5",
+								"exec": [
+									"pm.test(\"Forbidden method\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{barista-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pumpkin Spice Latte\",\r\n    \"recipe\": {[\r\n        \"name\": \"Pumpkin\",\r\n        \"color\": \"orange\",\r\n        \"parts\": 1\r\n    ]}\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks",
+								"1"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "manager",
+			"item": [
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2bde1e6d-ef2b-4f22-836b-779932008453",
+								"exec": [
+									"pm.test(\"Get drinks OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks-detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a179be8f-cd4c-4d5a-bd65-ee4b85160c2f",
+								"exec": [
+									"pm.test(\"No authorization header is present\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJyQmlLREd2NEJScWNxdkZMY2tnLSJ9.eyJpc3MiOiJodHRwczovL2Nvd2ZmZWVzaG9wLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZjhiMWFkYzc5Y2VjYTAwNzVmM2U2YmQiLCJhdWQiOiJjc2ZzIiwiaWF0IjoxNjAzMTMxNDA5LCJleHAiOjE2MDMxMzg2MDksImF6cCI6ImM4VW5SeEhlVUVZb3R0eExlRFdGaVdPZDc1aWVlSGQ2Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiXX0.PSlw67H_KxO0IzC8rEjBpC1id3i1UnxLamx2p29usvLkZgQSZs7seQ4LvyRW6xQgd2mPkjk6oa4PcReX5KLxJgFzhGSkCNTaaXGpT6E4K1Pm9kIb73Q1VNrFSKvZz6uMVtWJBWmq5syxwEKeu7s_nuak8dRKXAuis3wmFqojEZzm6JOpCHRSz_MmEdcbGYQ8U7_KGFFh5gZnHFs1mdCUCB99hYx7gkqd8cg_XNOd_hKjmBeJZhtj6dSVXdK-ea9EDNPhAdP8Dso7fks5R91U2PKTOL7gYfsn8dnJpRruwHe3V9qfBJLmOIYRx9O5LAIvVztcUxkzzEEbCsMkT4Zxuw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks-details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks-details"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "00d2e726-b5af-437e-91c9-90a6da4d688d",
+								"exec": [
+									"pm.test(\"Post drinks OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{manager-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pumpkin Spice Latte\",\r\n    \"recipe\": {\r\n        \"name\": \"Pumpkin\",\r\n        \"color\": \"orange\",\r\n        \"parts\": 1\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "33d3bcbc-f838-4ecb-a305-0432c15d87dc",
+								"exec": [
+									"pm.test(\"Patch drinks OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{manager-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pumpkin Spice Coffee\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks",
+								"1"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0d2ace17-f724-4ec3-bb62-a2d9d03932c2",
+								"exec": [
+									"pm.test(\"No authorization header is present\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJyQmlLREd2NEJScWNxdkZMY2tnLSJ9.eyJpc3MiOiJodHRwczovL2Nvd2ZmZWVzaG9wLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZjhiMWFkYzc5Y2VjYTAwNzVmM2U2YmQiLCJhdWQiOiJjc2ZzIiwiaWF0IjoxNjAzMTMxNDA5LCJleHAiOjE2MDMxMzg2MDksImF6cCI6ImM4VW5SeEhlVUVZb3R0eExlRFdGaVdPZDc1aWVlSGQ2Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiXX0.PSlw67H_KxO0IzC8rEjBpC1id3i1UnxLamx2p29usvLkZgQSZs7seQ4LvyRW6xQgd2mPkjk6oa4PcReX5KLxJgFzhGSkCNTaaXGpT6E4K1Pm9kIb73Q1VNrFSKvZz6uMVtWJBWmq5syxwEKeu7s_nuak8dRKXAuis3wmFqojEZzm6JOpCHRSz_MmEdcbGYQ8U7_KGFFh5gZnHFs1mdCUCB99hYx7gkqd8cg_XNOd_hKjmBeJZhtj6dSVXdK-ea9EDNPhAdP8Dso7fks5R91U2PKTOL7gYfsn8dnJpRruwHe3V9qfBJLmOIYRx9O5LAIvVztcUxkzzEEbCsMkT4Zxuw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pumpkin Spice Latte\",\r\n    \"recipe\": {[\r\n        \"name\": \"Pumpkin\",\r\n        \"color\": \"orange\",\r\n        \"parts\": 1\r\n    ]}\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/drinks/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"drinks",
+								"1"
+							]
+						},
+						"description": "Get details for the chosen drink, available to baristas and managers"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "24eefacb-9121-4ea6-9670-addc8c76878b",
+			"key": "barista-token",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJyQmlLREd2NEJScWNxdkZMY2tnLSJ9.eyJpc3MiOiJodHRwczovL2Nvd2ZmZWVzaG9wLnVzLmF1dGgwLmNvbS8iLCJz..."
+		},
+		{
+			"id": "7591a1f2-78e9-47f0-a58d-5879005e7cbc",
+			"key": "manager-token",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJyQmlLREd2NEJScWNxdkZMY2tnLSJ9.eyJpc3MiOiJodHRwczovL2Nvd2ZmZWVzaG9wLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZjhlMDY5ZDhlMzZhYzAwNjllODA5MDQiLCJhdWQiOiJjc2ZzIiwiaWF0IjoxNjAzMTQzMzQ5LCJleHAiOjE2MDMyMjk3NDksImF6cCI6ImM4VW5SeEhlVUVZb3R0eExlRFdGaVdPZDc1aWVlSGQ2Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.kXHszWJLfR7qv3FugMMVJK7aUzF66XCZyMf9Cl4dLTu8dhQM8CbFgjCOmpJp8K3eGT_rwP_SQbZl3Yq7Q5n5P8X_tdyUobtPkC40r8A0keyYM3bNaLvirNHKPHCwnICSs6xJY8pvFmGTQmh8FS3y-uXdYdKSGZvRdsyDih0Dczuu9Yh6hYPIofLMlDBrfGdw5sPCXunmq7jBCsDhc4nAHGX9s5O664VBig1ei8Wwue53NijTSs8uXmZ4suR49dZV162rzKhNrmOalYutLYBcAMGy8Es5XHezRVmR6qpPUIi3g_Pl3bgCPjSFIDdyvWr2KRDE0O9XKm20JCpN0jtR5A"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

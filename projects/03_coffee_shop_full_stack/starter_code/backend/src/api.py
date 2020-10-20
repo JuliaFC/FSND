@@ -37,8 +37,7 @@ def after_request(response):
 
 
 @app.route('/drinks', methods=['GET'])
-def get_drinks(token):
-    try:
+def get_drinks():
     drinks = Drink.query.all()
     if not drinks:
         abort(404)
@@ -54,7 +53,6 @@ def get_drinks(token):
 @requires_auth('get:drinks-detail')
 def get_drinks_detail(token):
     drinks = Drink.query.all()
-    print(drinks)
     drinks = [d.long() for d in drinks]
     return jsonify({
         'success': True,
@@ -65,33 +63,44 @@ def get_drinks_detail(token):
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
 def add_drink(token):
+    try:
+        body = request.get_json()
+        title = body.get('title')
+        recipe = body.get('recipe')
 
-    title = request.get_json().get('title')
-    recipe = request.get_json().get('recipe')
+        if (title is None) or (recipe is None):
+            abort(422)
 
-    new_drink = Drink(title=title, recipe=json.dumps(recipe))
-    new_drink.insert()
-    if not new_drink:
-        abort(500)
-    new_drink = new_drink.long()
-    all_drinks = Drink.query.all()
-    all_drinks = [d.long() for d in all_drinks]
-    return jsonify({
-        'success': True,
-        'drinks': all_drinks
-    })
+        new_drink = Drink(title=title, recipe=json.dumps(recipe))
+        new_drink.insert()
+        print(new_drink.id)
+
+        all_drinks = Drink.query.all()
+        drinks = [drink.long() for drink in all_drinks]
+        drink = Drink.query.get(1)
+        print(drink.long())
+
+        return jsonify({
+            "success": True,
+            "drinks": drinks
+            })
+    except IndexError:
+        abort(422)
 
 
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
 def edit_drink(token, drink_id):
     drink = Drink.query.get(drink_id)
+    body = request.get_json()
+    title = body.get('title')
+    recipe = body.get('recipe')
 
     if not drink:
         abort(404)
 
-    drink.name = request.form.get('name')
-    drink.recipe = json.dumps(request.form.get('recipe'))
+    drink.name = title
+    drink.recipe = json.dumps(recipe)
     drink.update()
     drink = drink.long()
 

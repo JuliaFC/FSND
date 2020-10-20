@@ -23,11 +23,19 @@ class AuthError(Exception):
 
 
 def get_token_auth_header():
-    auth_header = request.headers['Authorization']
-    if auth_header is None:
+    auth_header = ''
+    try:
+        auth_header = request.headers['Authorization']
+    except KeyError:
         raise AuthError({
             'code': 'no_header',
-            'description': 'No header is present.'
+            'description': 'No authorization header is present.'
+        }, 400)
+    finally:
+        if auth_header is None:
+            raise AuthError({
+            'code': 'no_header',
+            'description': 'No authorization header is present.'
         }, 400)
 
     header_parts = auth_header.split(' ')[1]
